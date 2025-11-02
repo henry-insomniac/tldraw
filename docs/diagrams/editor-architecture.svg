@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="960" viewBox="0 0 1400 960">
+  <defs>
+    <style>
+      .box { fill:#fff; stroke:#1f2937; stroke-width:2; rx:8; ry:8; }
+      .title { font-family: Arial, sans-serif; font-size:16px; font-weight:bold; fill:#111827; }
+      .text { font-family: Arial, sans-serif; font-size:13px; fill:#111827; }
+      .edge { stroke:#4b5563; stroke-width:2; fill:none; }
+      .dashed { stroke-dasharray:6 6; }
+      .cluster { fill:#f9fafb; stroke:#e5e7eb; stroke-width:2; rx:10; ry:10; }
+      .label { font-family: Arial, sans-serif; font-size:12px; fill:#374151; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="10" refY="5" orient="auto">
+      <path d="M0,0 L10,5 L0,10 z" fill="#4b5563"/>
+    </marker>
+  </defs>
+
+  <!-- Title -->
+  <text x="700" y="40" text-anchor="middle" class="title">tldraw Editor 核心架构关系图</text>
+
+  <!-- Editor Core -->
+  <rect x="560" y="80" width="280" height="120" class="box"/>
+  <text x="700" y="110" text-anchor="middle" class="title">Editor（Orchestrator）</text>
+  <text x="700" y="135" text-anchor="middle" class="text">- 事件调度 dispatch/_flushEventsForTick</text>
+  <text x="700" y="155" text-anchor="middle" class="text">- 相机/坐标、选择、几何、历史/事务</text>
+  <text x="700" y="175" text-anchor="middle" class="text">- 与 Store/Managers/StateNode 协作</text>
+
+  <!-- Store -->
+  <rect x="80" y="80" width="300" height="180" class="box"/>
+  <text x="230" y="110" text-anchor="middle" class="title">Store（@tldraw/store）</text>
+  <text x="230" y="135" text-anchor="middle" class="text">- Records: Document/Instance/Page/Shape/Binding/Asset</text>
+  <text x="230" y="155" text-anchor="middle" class="text">- Signals/ComputedCache/History</text>
+  <text x="230" y="175" text-anchor="middle" class="text">- SideEffects 钩子流</text>
+
+  <!-- Statechart / Tools -->
+  <rect x="1020" y="80" width="300" height="180" class="box"/>
+  <text x="1170" y="110" text-anchor="middle" class="title">StateNode / Tools</text>
+  <text x="1170" y="135" text-anchor="middle" class="text">- RootState + 子状态机</text>
+  <text x="1170" y="155" text-anchor="middle" class="text">- 选择/绘制/缩放/橡皮等工具</text>
+  <text x="1170" y="175" text-anchor="middle" class="text">- 处理指针/键盘/轮/Pinch 事件</text>
+
+  <!-- Managers Cluster -->
+  <rect x="520" y="230" width="360" height="210" class="cluster"/>
+  <text x="700" y="255" text-anchor="middle" class="label">Managers</text>
+  <rect x="540" y="270" width="150" height="70" class="box"/>
+  <text x="615" y="295" text-anchor="middle" class="title">Snap</text>
+  <text x="615" y="315" text-anchor="middle" class="text">吸附/指示</text>
+  <rect x="710" y="270" width="150" height="70" class="box"/>
+  <text x="785" y="295" text-anchor="middle" class="title">Text</text>
+  <text x="785" y="315" text-anchor="middle" class="text">度量/排版</text>
+  <rect x="540" y="350" width="150" height="70" class="box"/>
+  <text x="615" y="375" text-anchor="middle" class="title">Font</text>
+  <text x="615" y="395" text-anchor="middle" class="text">字体管理</text>
+  <rect x="710" y="350" width="150" height="70" class="box"/>
+  <text x="785" y="375" text-anchor="middle" class="title">Tick</text>
+  <text x="785" y="395" text-anchor="middle" class="text">时钟/动画</text>
+
+  <!-- Caches -->
+  <rect x="80" y="300" width="300" height="160" class="box"/>
+  <text x="230" y="325" text-anchor="middle" class="title">Computed Caches</text>
+  <text x="230" y="350" text-anchor="middle" class="text">- PageTransformCache</text>
+  <text x="230" y="370" text-anchor="middle" class="text">- PageBounds/MaskedBounds</text>
+  <text x="230" y="390" text-anchor="middle" class="text">- ClipPath/RenderingShapes</text>
+
+  <!-- SideEffects -->
+  <rect x="1020" y="300" width="300" height="160" class="box"/>
+  <text x="1170" y="325" text-anchor="middle" class="title">SideEffects</text>
+  <text x="1170" y="350" text-anchor="middle" class="text">- operationComplete</text>
+  <text x="1170" y="370" text-anchor="middle" class="text">- shape.afterChange/beforeDelete</text>
+  <text x="1170" y="390" text-anchor="middle" class="text">- onChildrenChange / onAfterDelete</text>
+
+  <!-- Rendering / React -->
+  <rect x="520" y="470" width="360" height="150" class="box"/>
+  <text x="700" y="495" text-anchor="middle" class="title">Rendering Pipeline</text>
+  <text x="700" y="520" text-anchor="middle" class="text">getRenderingShapes → React 订阅</text>
+  <text x="700" y="540" text-anchor="middle" class="text">DefaultCanvas/Shape 设置 transform/尺寸/可见性</text>
+
+  <rect x="520" y="640" width="360" height="130" class="box"/>
+  <text x="700" y="665" text-anchor="middle" class="title">React UI</text>
+  <text x="700" y="690" text-anchor="middle" class="text">useValue/useQuickReactor/useStateTracking</text>
+  <text x="700" y="710" text-anchor="middle" class="text">组件覆盖/Minimap/Overlays</text>
+
+  <!-- Inputs / DOM Events -->
+  <rect x="80" y="640" width="300" height="130" class="box"/>
+  <text x="230" y="665" text-anchor="middle" class="title">DOM Inputs</text>
+  <text x="230" y="690" text-anchor="middle" class="text">pointer/keyboard/wheel/pinch</text>
+  <text x="230" y="710" text-anchor="middle" class="text">useCanvasEvents/useDocumentEvents</text>
+
+  <!-- External Content -->
+  <rect x="1020" y="640" width="300" height="130" class="box"/>
+  <text x="1170" y="665" text-anchor="middle" class="title">External Content</text>
+  <text x="1170" y="690" text-anchor="middle" class="text">files/url/text/svg/embed</text>
+  <text x="1170" y="710" text-anchor="middle" class="text">Asset pipeline / validation</text>
+
+  <!-- Edges -->
+  <!-- Editor ↔ Store -->
+  <path class="edge" marker-end="url(#arrow)" d="M560,140 L390,140"/>
+  <path class="edge" marker-end="url(#arrow)" d="M380,190 L560,190"/>
+  <text x="470" y="130" class="label" text-anchor="middle">get/put/update/query</text>
+
+  <!-- Editor ↔ Tools -->
+  <path class="edge" marker-end="url(#arrow)" d="M840,140 L1020,140"/>
+  <path class="edge" marker-end="url(#arrow)" d="M1020,200 L840,200"/>
+  <text x="930" y="130" class="label" text-anchor="middle">handleEvent</text>
+
+  <!-- Editor → Managers -->
+  <path class="edge" marker-end="url(#arrow)" d="M700,200 L700,230"/>
+
+  <!-- Store → Caches （依赖）-->
+  <path class="edge dashed" marker-end="url(#arrow)" d="M330,260 C400,260 420,300 520,300"/>
+  <text x="420" y="255" class="label">derived</text>
+
+  <!-- SideEffects ↔ Store -->
+  <path class="edge" marker-end="url(#arrow)" d="M1170,300 L1170,260 C1170,240 1100,220 980,220"/>
+  <text x="1090" y="230" class="label">operation hooks</text>
+
+  <!-- Rendering Shapes from Editor → React -->
+  <path class="edge" marker-end="url(#arrow)" d="M700,430 L700,470"/>
+  <text x="710" y="455" class="label">getRenderingShapes()</text>
+
+  <!-- React DOM events → Editor.dispatch -->
+  <path class="edge" marker-end="url(#arrow)" d="M380,705 L520,705"/>
+  <text x="450" y="695" class="label">dispatch(info)</text>
+
+  <!-- Tools ↔ Store（创建/更新/删除） -->
+  <path class="edge" marker-end="url(#arrow)" d="M1020,180 C950,240 860,240 560,190"/>
+  <text x="820" y="220" class="label">create/update/delete</text>
+
+  <!-- External content → Editor（putExternalContent） -->
+  <path class="edge" marker-end="url(#arrow)" d="M1020,705 L880,705"/>
+  <text x="950" y="695" class="label">putExternalContent</text>
+
+  <!-- Editor → React UI（状态订阅） -->
+  <path class="edge dashed" marker-end="url(#arrow)" d="M700,620 L700,640"/>
+  <text x="720" y="630" class="label">signals/hooks</text>
+
+  <!-- Legend -->
+  <rect x="80" y="820" width="1240" height="100" class="cluster"/>
+  <text x="100" y="850" class="label">图例：</text>
+  <text x="180" y="850" class="text">实线箭头：调用/数据写入</text>
+  <text x="380" y="850" class="text">虚线箭头：订阅/派生关系</text>
+  <text x="620" y="850" class="text">Managers：Snap/Text/Font/Tick 等横切模块</text>
+  <text x="100" y="875" class="text">Rendering Pipeline：Editor 构建渲染清单 → React 最小渲染（CSS transform/可见性）</text>
+  <text x="100" y="900" class="text">SideEffects：统一收敛 Store 操作完成后的生命周期回调</text>
+</svg>
+
